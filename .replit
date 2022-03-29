@@ -1,8 +1,8 @@
 #java
-compile = "javac -classpath .:target/dependency/* -d . $(find . -type f -name '*.java')"#;javadoc runtax -d docs"
+compile = "javac -classpath .:target/dependency/* -d .out $(find . -type f -name '*.java')"#;javadoc runtax -d docs"
 
 #java
-run = ["java", "-classpath", ".:target/dependency/*", "Main"]
+run = ["java", "-classpath", "./out:target/dependency/*", "Main"]
 
 #java
 entrypoint = "Main.java"
