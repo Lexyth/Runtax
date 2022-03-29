@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"runtax","l":"BasicRuleSet"},{"p":"runtax","l":"Rule.Builder"},{"p":"runtax","l":"Rule"},{"p":"runtax","l":"RuleSet"}];updateSearchResults();
