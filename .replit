@@ -1,13 +1,9 @@
-#java
-compile = "javac -classpath ./out:target/dependency/* -d ./out $(find . -type f -name '*.java');"#"javadoc -sourcepath ./src:target/dependency/* runtax -d docs"
+compile = "javac -classpath ./out:target/dependency/* -d ./out $(find . -type f -name '*.java');javadoc -sourcepath ./src:target/dependency/* runtax -d docs"
 
-#java
 run = ["java", "-classpath", "./out:target/dependency/*", "Main"]
 
-#java
 entrypoint = "Main.java"
 
-#java
 hidden = ["**/*.class"]
 
 [packager]

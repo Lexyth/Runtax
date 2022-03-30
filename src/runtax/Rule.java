@@ -2,64 +2,73 @@ package runtax;
 
 import java.util.ArrayList;
 
+/**
+* Rule describing a syntax assembled from contained {@code Rule}s or given by the {@code regex} field.
+* <p>Supports chained building and static creation of {@code Rule} objects. 
+* @author Lexyth
+* @see RuleSet
+* @since 1.0.0
+*/
+
 public class Rule {
 
   //optionally add HashMap of all NAMED Rules to speed up lookup of subrules. Maybe irrelevant due to possibly requiring deep search...
 
+  /**
+* The rules this {@code Rule} instance is made of.
+*/
   private ArrayList<RuleEntry> rules;
+
+  /**
+* The regex assembled from all the rules in {@code rules} via the {@code assemble} method. 
+*/
   private String regex;
 
-  public Rule () {
+  /**
+* A constructor used to initialize the {@code rules}. 
+* Only used by the static building methods of the inner {@code Builder} interface.
+*/
+  private Rule () {
     rules = new ArrayList<>();
   }
 
-  public Rule (String regex) {
+  /**
+* A constructor used to set the {@code regex}.
+* Only used by the static building methods of the inner {@code Builder} interface.
+*/
+  private Rule (String regex) {
     this.regex = regex;
   }
 
   //may be renamed to 'regex' if setRegex is removed
-  public String getRegex () {
+  public String regex () {
     if (regex == null) {
       assemble();
     }
     return this.regex;
   }
 
-  //just in case... may be removed
-  public void setRegex (String regex) {
-    this.regex = regex;
-  }
-
   /*
   **
-  **instance chained builder methods
+  **instance chained building methods
   **
   */
 
-  //may be reworked to call the static construction methods where possible
-
   //no need for sequence cause the chained calls adding to the rules arraylist already work like a sequence
 
-  //need 2 of each, one named the other not
+  //need 2 of each, with and without name
 
   //Rule entry
 
-  //rework to support varargs
   public Rule rule (Rule... rules) {
     return rule("", rules);
   }
 
   public Rule rule (String name, Rule... rules) {
-    Rule inner;
-    if (rules.length == 1) {
-      inner = rules[0];
-    } else {
-      inner = new Rule();
-      for (int i = 0; i < rules.length; i++) {
-        inner.rule(rules[i]);
-      }
-    }
-    this.rules.add(new RuleEntry(name, inner));
+    if (rules.length == 1)
+      this.rules.add(new RuleEntry(name, rules[0]));
+    else if (rules.length > 1)
+      this.rules.add(new RuleEntry(name, Builder.sequence(rules)));
     return this;
   }
 
@@ -162,7 +171,7 @@ public class Rule {
   public void assemble () {
     regex = "";
     for (int i = 0; i < rules.size(); i++) {
-      regex += "(" + rules.get(i).rule().getRegex() + ")";
+      regex += "(" + rules.get(i).rule().regex() + ")";
     }
   }
 
@@ -184,13 +193,11 @@ public class Rule {
 
   //toString
   public String toString () {
-    return getRegex();
+    return regex();
   }
 
-  /*
-  **
-  ** static Builder class
-  **
+  /**
+* The {@code Builder} interface allows static creation of Rule objects.
   */
 
   public interface Builder {
@@ -203,7 +210,15 @@ public class Rule {
     }
 
     static Rule sequence (Rule... rules) {
-      return new Rule().rule(rules);
+      Rule rule = null;
+      if (rules.length == 1) 
+          rule = rules[0];
+      else if (rules.length > 1) {
+        rule = new Rule();
+        for (int i = 0; i < rules.length; i++)
+          rule.rule(rules[i]);
+      }
+      return rule;
     }
 
     static Rule oneOf (Rule... rules) {
