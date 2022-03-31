@@ -3,8 +3,8 @@ package runtax;
 import java.util.ArrayList;
 
 /**
-* Rule describing a syntax assembled from contained {@code Rule}s or given by the {@code Rule#regex} field.
-* <p>Supports chained building directly and static creation of {@code Rule} objects via the {@code Rule.Builder} interface.
+* Rule describing a syntax assembled from contained {@link Rule}s or given by the {@link Rule#regex} field.
+* <p>Supports chained building directly and static creation of {@link Rule} objects via the {@link Rule.Builder} interface.
 * @author Lexyth
 * @see runtax.RuleSet
 * @since 1.0.0
@@ -14,26 +14,26 @@ public class Rule {
   //optionally add HashMap of all NAMED Rules to speed up lookup of subrules. Maybe irrelevant due to possibly requiring deep search...
 
   /**
-* The rules this {@code Rule} instance is made of.
+* The rules this rule is made of.
 */
   private ArrayList<RuleEntry> rules;
 
   /**
-* The regex assembled from all the rules in {@code Rule#rules} via the {@code Rule#assemble()} method. 
+* The regex assembled from all the rules in {@link Rule#rules} via the {@link Rule#assemble()} method. 
 */
   private String regex;
 
   /**
-* A constructor used to initialize the {@code Rule#rules}. 
-* Only used by the static building methods of the inner {@code Rule.Builder} interface.
+* A constructor used to initialize the {@link Rule#rules}. 
+* Only used by the static building methods of the inner {@link Rule.Builder} interface.
 */
   private Rule () {
     rules = new ArrayList<>();
   }
 
   /**
-* A constructor used to set the {@code Rule#regex}.
-* Only used by the static building methods of the inner {@code Rule.Builder} interface.
+* A constructor used to set the {@link Rule#regex}.
+* Only used by the static building methods of the inner {@link Rule.Builder} interface.
 * @see Rule#regex
 * @see Rule.Builder
 * @see Rule.Builder#regex()
@@ -43,9 +43,9 @@ public class Rule {
   }
 
 /**
-* Get the regex associated with this {@code Rule}. If {@code Rule#regex} is null, call {@code Rule#assemble()} to generate it from the {@code Rule}s in {@code Rule#rules}.
+* Get the regex associated with this rule. If {@link Rule#regex} is null, call {@link Rule#assemble()} to generate it from the rules in {@link Rule#rules}.
 * <p>Assembly may result in an empty String, but not null.
-* @return The regex associated with this {@code Rule}, whether given at construction or assembled via {@code Rule#assemble()}
+* @return The regex associated with this rule, whether given at construction or assembled via {@link Rule#assemble()}
 * @see Rule#assemble()
 * @see Rule#regex
 */
@@ -69,7 +69,7 @@ public class Rule {
   //Rule entry
 
 /**
-* Chained building method overloading {@code Rule#rule(String, Rule...)}.
+* Chained building method overloading {@link Rule#rule(String, Rule...)}.
 * @see Rule#rule(String, Rule...)
 * @param rules The rules to be collected in a single rule and appended to this rule
 * @return This rule
@@ -79,7 +79,7 @@ public class Rule {
   }
 
   /**
-* Chained building method that collects the given {@code rules} into a single rule via the {@code Rule.Builder#sequence(Rule...)} method of the {@code Rule.Builder} interface and appends that to this rule as a {@code Rule.RuleEntry}, setting its name to {@code name}.
+* Chained building method that collects the given {@code rules} into a single rule via the {@link Rule.Builder#sequence(Rule...)} method of the {@link Rule.Builder} interface and appends that to this rule as a {@link Rule.RuleEntry}, setting its name to {@code name}.
 * @see Rule.Builder#sequence(Rule...)
 * @see Rule.RuleEntry
 * @see Rule#rule(Rule...)
@@ -96,7 +96,7 @@ public class Rule {
   }
 
   /**
-* Chained building method overloading {@code Rule#regex(String, String)}
+* Chained building method overloading {@link Rule#regex(String, String)}
 * @see Rule#regex(String, String)
 * @param regex The regex to be converted to a rule and appended to this rule
 * @return This rule
@@ -106,7 +106,7 @@ public class Rule {
   }
 
   /**
-* Chained building method that converts the given {@code regex} into a rule via the {@code Rule.Builder#regex(String)} method of the {@code Rule.Builder} interface and appends that to this rule as a {@code Rule.RuleEntry}, setting its name to {@code name}.
+* Chained building method that converts the given {@code regex} into a rule via the {@link Rule.Builder#regex(String)} method of the {@link Rule.Builder} interface and appends that to this rule as a {@link Rule.RuleEntry}, setting its name to {@code name}.
 * @see Rule.RuleEntry
 * @see Rule#rule(String, Rule...)
 * @see Rule.Builder#regex(String)
@@ -121,7 +121,7 @@ public class Rule {
   }
 
   /**
-* Chained building method overloading {@code Rule#text(String, String)}
+* Chained building method overloading {@link Rule#text(String, String)}
 * @see Rule#text(String, String)
 * @param text The text to be converted to a rule and appended to this rule
 * @return This rule
@@ -132,7 +132,7 @@ public class Rule {
   }
 
   /**
-* Chained building method that converts the given {@code text} into a rule via the {@code Rule.Builder#text(String)} method of the {@code Rule.Builder} interface and appends that to this rule as a {@code Rule.RuleEntry}, setting its name to {@code name}.
+* Chained building method that converts the given {@code text} into a rule via the {@link Rule.Builder#text(String)} method of the {@link Rule.Builder} interface and appends that to this rule as a {@link Rule.RuleEntry}, setting its name to {@code name}.
 * @see Rule.RuleEntry
 * @see Rule#rule(String, Rule...)
 * @see Rule.Builder#regex(String)
