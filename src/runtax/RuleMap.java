@@ -23,6 +23,11 @@ public class Subclass extends RuleMap {
       entry("digit", regex("[0-9]"))
     ));
   }
+
+  public static Subclass instance () {
+    if (instance == null) instance = new Subclass();
+    return instance;
+  }
 }
 }
 </pre>

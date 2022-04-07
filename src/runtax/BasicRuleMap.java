@@ -3,7 +3,7 @@ package runtax;
 import static runtax.Rule.Builder.*;
 
 import java.util.Map;
-import java.util.HashMap;
+import static java.util.Map.entry;
 
 /**
 * The most basic map of Rules immaginable. 
@@ -15,15 +15,16 @@ public class BasicRuleMap extends RuleMap {
   private static BasicRuleMap instance;
   
   protected BasicRuleMap () {
-    Map<String, Rule> rules = new HashMap<>();
-    rules.put(
-      "letter",
-      regex("\\w")
-    );
-    rules.put(
-      "digit",
-      regex("\\d")
-    );
+    super(Map.ofEntries(
+      entry(
+        "letter",
+        regex("[a-zA-Z]")
+      ),
+      entry(
+        "digit",
+        regex("[0-9]")
+      )
+    ));
   }
 
   public static BasicRuleMap instance () {
