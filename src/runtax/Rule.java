@@ -2,11 +2,14 @@ package runtax;
 
 import java.util.ArrayList;
 
+//Considerations:
+//Move all chained builder methods into the builder class to make the Rule class immutable and avoid changes on rules after they're built. 
+
 /**
 * Rule describing a syntax assembled from contained {@link Rule}s or given by the {@link Rule#regex} field.
 * <p>Supports chained building directly and static creation of {@link Rule} objects via the {@link Rule.Builder} interface.
 * @author Lexyth
-* @see runtax.RuleSet
+* @see runtax.RuleMap
 * @since 1.0.0
 */
 public class Rule {
