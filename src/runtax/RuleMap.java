@@ -4,28 +4,52 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Collections;
 
-import static runtax.Rule.Builder.*;
-
 /**
 * A map of Rules.
 * <p>Subclasses should follow this format: 
 <pre>{@code
-import static java.util.Map.entry;
-import static runtax.Rule.Builder.regex;
+package runtax;
 
-public class Subclass extends RuleMap {
+import static runtax.Rule.Builder.*;
 
-  private Subclass instance;
+import java.util.Map;
+import java.util.HashMap;
 
-  protected Subclass () {
-    super(Map.ofEntries(
-      entry("letter", regex("[a-zA-Z]")),
-      entry("digit", regex("[0-9]"))
-    ));
+public class BasicRuleMap extends RuleMap {
+
+  private static BasicRuleMap instance;
+
+  protected BasicRuleMap () {
+    super(init(null));
+  }
+  
+  protected BasicRuleMap (Map<String, Rule> map) {
+    super(init(map));
   }
 
-  public static Subclass instance () {
-    if (instance == null) instance = new Subclass();
+  private static Map<String, Rule> init (Map<String, Rule> map) {
+    Map<String, Rule> rules;
+    if (map != null)
+      rules = new HashMap<>(map);
+    else
+      rules = new HashMap<>();
+
+    rules.put(
+      "letter",
+      regex("[a-zA-Z]")
+    );
+
+    rules.put(
+      "digit",
+      regex("[0-9]")
+    );
+    
+    return rules;
+  }
+
+  public static BasicRuleMap instance () {
+    if (instance == null) 
+      instance = new BasicRuleMap();
     return instance;
   }
 }
@@ -40,50 +64,49 @@ public class RuleMap {
   
   private Map<String, Rule> rules;
 
-  protected RuleMap () {
-    rules = new HashMap<>();
-  }
-
   /**
-* Constructs a new RuleSet using the Rules from the given {@code ruleSets}. Duplicate keys will be overwritten by the last entry without warning and in no guaranteed order. May be reworked. 
+* Constructs a new RuleMap using the Rules from the given {@code ruleMaps}. Duplicate keys will be overwritten by the last entry without warning and in no guaranteed order. May be reworked.
+  * @param ruleMaps The RuleMaps with the Rules
+* @see java.util.Map#putAll(Map)
   */
   public RuleMap (RuleMap... ruleMaps) {
-    this();
+    rules = new HashMap<>();
     for (int i = 0; i < ruleMaps.length; i++) {
-      for (Map.Entry<String, Rule> entry : ruleMaps[i].rules.entrySet()) {
-        add(
-          entry.getKey(),
-          entry.getValue()
-        );
-      }
+      rules.putAll(ruleMaps[i].rules());
     }
   }
   
   /**
-* Constructs a new RuleSet from the given Rules. Duplicate keys will be overwritten by the last entry without warning and in no guaranteed order. May be reworked. Also gotta solve the heap pollution caused by the varargs... later...
+* Constructs a new RuleMap from the Rules in the given {@code map}. Duplicate keys will be overwritten by the last entry without warning and in no guaranteed order. May be reworked.
+  * @param map The Map with the Rules
+* @see java.util.Map#putAll(Map)
   */
-  public RuleMap (Map<String, Rule> ruleMap) {
-    this();
-    for (Map.Entry<String, Rule> entry : ruleMap.entrySet()) {
-      add(
-        entry.getKey(),
-        entry.getValue()
-      );
-    }
+  public RuleMap (Map<String, Rule> map) {
+    rules = new HashMap<>(map);
   }
 
+  /**
+* Returns an unmodifiable view of the Rules contained in this RuleMap.
+* @return a view of the Rules
+* @see java.util.Collections#unmodifiableMap(Map)
+  */
+  
   public Map<String, Rule> rules () {
     return Collections.unmodifiableMap(rules);
   }
 
-  public Rule get(String key) {
-    return rules.get(key);
+  /**
+* Returns a Rule by its associated name. 
+* @param name The name of the Rule
+* @return the Rule with this name
+  */
+  public Rule get(String name) {
+    return rules.get(name);
   }
 
-  private void add(String key, Rule rule) {
-    rules.put(key, rule);
-  }
-
+  /**
+* {inheritDoc}
+  */
   @Override
   public String toString() {
     String result = "{\n";

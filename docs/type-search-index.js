@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"runtax","l":"BasicRuleMap"},{"p":"runtax","l":"Rule.Builder"},{"p":"runtax","l":"Rule"},{"p":"runtax","l":"RuleMap"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"runtax","l":"BasicRuleMap"},{"p":"runtax","l":"Rule.Builder"},{"p":"runtax","l":"Rule"},{"p":"runtax","l":"Rule.RuleEntry"},{"p":"runtax","l":"RuleMap"}];updateSearchResults();
