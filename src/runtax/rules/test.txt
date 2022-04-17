@@ -1,0 +1,55 @@
+#this is a
+# comment
+#double quotes are evaluated as text
+rule1Name= "text" ;
+#single quotes are evaluated as regex
+rule2Name ='regex' ;
+#unnecessary spaces are just ignored – start, end and surrounding the first equals sign
+ rule3Name = rule1Name rule2Name ;
+#multiple spaces are counted as one space
+  rule4Name  =   rule2Name  rule3Name ; 
+#unknown char sequences are evaluated as text, as long as they don't contain a space or true newline
+#evaluated as the text 'text'
+rule5Name = text ;
+#evaluated as the separate texts "first" and "second", effectively reassembled as "firstsecond", so without space
+rule6Name = first second ;
+#evaluated as the text "first second"
+rule7Name = "first second" ;
+
+#empty lines are ignored
+
+#special characters
+
+#immediately following the target without space
+# optional : ?
+# zeroOrMore : *
+# oneOrMore : +
+
+#might not appear or only once
+optional = "This text is optional."? ;
+#might not appear or as often as it wants
+zeroOrMore = "a"* ;
+#might appear once or more times
+oneOrMore = "b"+ ;
+#TODO: gotta figure out how lazy and greedy work out...
+
+#surrounded by spaces
+# oneOf : |
+
+#TODO: decide between the following two options
+# 1: could be "a" or "b" or "cd"
+# 2: could be "ad" or "bd" or "cd"
+oneOf = "a" | "b" | "c" "d" ;
+
+#needs space or special character on the outer side
+# grouping : ()
+
+#the regex of a variable is surrounded by parentheses when it is referenced
+#equivalent to the regex '((((\Qa\E)*)((\QThis text is optional.\E)?) ((\Qb\E)+))|((\QThis text is optional.\E)?(\QThis text is optional.\E)?)+)?'
+group = ((zeroOrMore optional oneOrMore) | (optional optional)+)? ;
+
+#order matters!
+#evaluated as the optional text "doIExist"
+tooEarly = doIExist? ;
+#variables only exist in lines below the declaration
+doIExist = "Only after this line" ;

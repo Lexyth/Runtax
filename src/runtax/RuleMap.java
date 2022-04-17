@@ -6,7 +6,7 @@ import java.util.Collections;
 
 /**
 * A map of Rules.
-* <p>Subclasses should follow this format: 
+* <p>Subclasses with hard-coded Rules should follow this format: 
 <pre>{@code
 package runtax;
 
@@ -111,7 +111,7 @@ public class RuleMap {
   public String toString() {
     String result = "{\n";
     for (Map.Entry<String, Rule> entry : rules.entrySet()) {
-      result += "  '" + entry.getValue() + "'\n";
+      result += "   " + entry.getKey() + " = '" + entry.getValue() + "'\n";
     }
     result += "}";
     return result;

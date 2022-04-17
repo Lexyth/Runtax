@@ -1,0 +1,13 @@
+Add a way to name rules added via varargs... Already got a way to name the last added rule, but that's not good for oneOf(Rule...) and oneOf(String, Rule...) only names the outer Rule, not the individual options...
+
+----------
+
+Maybe add a way for Rules to directly return the substring they match in a String. 
+Something like text("world").findIn("Hello, world!") -> "world". Useless like this, I know, but makes sense with actual regex. 
+Or better: add a class that handels that. 
+
+----------
+
+Add AST or a similar Tree class. Alternatively add Rule.content field that stores the content of what a Rule found (but only the lowest level Rules). 
+
+----------
